@@ -1,0 +1,106 @@
+---
+title: "1. Intro"
+author: "DrPH Yr 1 Sem 1 2019/2020"
+date: "14/12/2019"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+---
+
+# Instruction
+
+DrPH Yr 1 Sem 1 2019/2020 Mock Exam
+
+- Time 9am - 12pm
+
+0. Preparation (~15 min) 
+
+- 9.30am - 9.45am
+
+1. Check each computer have (latest) R software
+- Start Menu -> R
+- latest is 3.6.2
+
+```{r, eval=F}
+install.packages("installr")
+library(installr)
+updateR()
+```
+
+2. Close R
+3. Check each computer have (latest) RStudio IDE Software
+
+- Start Menu -> RStudio
+- Help -> About RStudio
+- latest: 1.2.5019
+
+4. Open MockExam Project
+
+- New Project
+- Version Control
+- Git
+- Repository URL : https://github.com/puterabemi/MockExam.git
+- Project Directory Name : MockExam
+- Subdirectory : ~/Rstudio
+
+5. Run Code below (Common Packages)
+
+## 1. - Load Common Packages
+
+```{r, eval=F}
+install.packages("pacman")
+library(pacman)
+p_load(haven, foreign, broom, tidyverse, psych, corrplot, knitr, LogisticDx, generalhoslem, ResourceSelection, lubridate, survival, survminer)
+```
+
+## 2. ANOVA (15 - 30min)
+
+- 10am - 10.15am
+
+*constructing*
+
+## 3. ANCOVA (15 - 30min)
+
+- 10.20am - 10.35am
+
+*constructing*
+
+## 4. RM ANOVA (15 - 30min)
+
+- 10.40am - 10.55am
+
+*constructing*
+
+## 5. Linear Regression (15 - 30min)
+
+- 11am - 11.15am
+
+1. Go to Files Tab
+2. Open 5 - Linear Regression.Rmd file
+3. Follow Instruction in the file
+
+## 6. Logistic Regression (15 - 30min)
+
+- 11.20am - 11.35am
+
+1. Go to Files Tab
+2. Open 6 - Logistic Regression.Rmd file
+3. Follow Instruction in the file
+
+## 7. Survival Analysis (15 - 30min)
+
+- 11.40am - 11.55am
+
+1. Go to Files Tab
+2. Open 7 - Survival Analysis.Rmd file
+3. Follow Instruction in the file
+
+## 8. Others (Theories) (30 - 45min)
+
+
+
+## 9. Answer
+
+

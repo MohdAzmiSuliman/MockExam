@@ -1,0 +1,6 @@
+---
+title: "5 - RM ANCOVA"
+author: "DrPH Yr 1 Sem 1 2019/2020"
+date: "14/12/2019"
+output: html_document
+---
