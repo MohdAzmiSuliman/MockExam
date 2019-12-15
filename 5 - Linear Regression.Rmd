@@ -1,6 +1,63 @@
 ---
-title: "5 - RM ANCOVA"
+title: "5 - Linear Regression"
 author: "DrPH Yr 1 Sem 1 2019/2020"
-date: "14/12/2019"
+date: "12/15/2019"
 output: html_document
 ---
+
+```{r}
+library(readxl)
+data1 <- read_excel('data.xlsx')
+head(data1)
+```
+
+```{r}
+library(tidyverse)
+data1 <- data1 %>% mutate(Sex = as.factor(Sex),
+                          Age = as.double(Age),
+                          BMI = as.double(`Body mass index`),
+                          HbA1c = as.double(HbA1c),
+                          HDL = as.double(HDL),
+                          LDL = as.double(LDL),
+                          TG = as.double(TG),
+                          Diab_dur = as.double(`Diabetes Age`))
+head(data1)
+```
+
+# PYQ 2018 linear
+
+Using the dataset analyze the relationship between HbA1c and age,  diabetic duration, bmi
+
+a. Write regression model and regression equation (10m)
+
+b. Add interaction. (age and diabetic duration) Present in table (10m)
+
+c. Write equation with interaction. (10m)
+
+d. Assumptions for fitness analysis for this model. (10m)
+**comment on adjusted R-squared
+
+#PYQ 2017 linear
+
+Using the same dataset, analyze the relationship between variable ‘hdl’ and these covariates, ‘ldl’,tg,’gender’. Name the model as Model A. 
+
+a) Write the regression model and regression estimate. (10 marks) 
+
+b) Interpret the variances between regression model and regression estimates (10 marks) 
+	
+c) Add on interaction between ‘tg and ‘gender’ to the model and name the model as Model B. Compare model A and model B using appropriate test and interpret the findings. (10 marks) 
+
+d) Predict the mean hdl level in a population with ldl = 3.5, tg = 3.0, gender = male  according the Model A and Model B. (10 marks)
+
+
+
+
+
+
+
+
+
+
+
+
+

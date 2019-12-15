@@ -1,6 +1,87 @@
 ---
 title: "6 - Logistic Regression"
 author: "DrPH Yr 1 Sem 1 2019/2020"
-date: "14/12/2019"
+date: "12/15/2019"
 output: html_document
 ---
+
+A dataset(coronary.csv) contains these variables:
+
+- id : unique identification number
+- cad : Coronary Artery Disease (no cad/cad)
+- sbp : Systolic Blood Pressure in mmHg
+- dbp : Dystolic Blood Pressure in mmHg
+- chol : Total Serum Cholesterol in mmol/l
+- age : Age in Years
+- bmi : BMI in kg/m2
+- race : Races (indian/chinese/malay)
+- gender : gender (woman/man)
+
+
+```{r}
+# PESANAN PENAJA : RUN THIS CHUNK FIRST BEFORE YOU START THE ANALYSIS!!
+library(foreign)
+data0 <- read.spss('coronary.sav', to.data.frame = TRUE, convert.factors = T)
+data0
+```
+
+```{r}
+#CODE
+glm(outcome ~ var1 + var2 + var3 + var4 + var5, family = binomial(link = logit), data = dataset)
+expand.grid(var1 = value2, var2 = value2)
+predict(modelname, newdata = nameofnewdata, type = 'link/term/response')
+```
+
+
+
+**QUESTION 1**
+
+Analyze the relationship between variable ‘cad’ and these covariates, ‘age’,’gender’,’race’ and ‘chol’ and 'dbp'. Name the model as ‘mod.cad’. Write the estimated regression parameters in a table based on ‘mod.cad’. Interpret the parameters. (20 marks)
+
+**QUESTION 2**
+
+Add an interaction term between variable ‘age’ and ‘gender’ to the model ‘mod.cad’.Run the analysis and name the model as ‘mod.cad.int’. Write the estimated regression parameters in a table based on ‘mod.metab.int’.
+(10 marks)
+
+**QUESTION 3**
+
+Compare model ‘mod.cad.int’ and ‘mod.cad’ using an appropriate test and interpret the result. (10 marks)
+
+**QUESTION 4**
+
+Predict the logit and probability for having coronory artery disease (cad = cad) in a population with age = 50, gender = woman, race = chinese and dbp = 90, chol = 7 based on ‘mod.cad’ and ‘mod.mcad.int’. (20 marks)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

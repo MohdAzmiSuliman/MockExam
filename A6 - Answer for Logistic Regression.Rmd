@@ -1,0 +1,108 @@
+---
+title: "MOCK EXAM"
+author: "Dr Md Faizul Bin Abd Razak"
+date: "12/13/2019"
+output: html_document
+---
+
+A dataset(coronary.csv) contains these variables:
+
+- id : unique identification number
+- cad : Coronary Artery Disease (no cad/cad)
+- sbp : Systolic Blood Pressure in mmHg
+- dbp : Dystolic Blood Pressure in mmHg
+- chol : Total Serum Cholesterol in mmol/l
+- age : Age in Years
+- bmi : BMI in kg/m2
+- race : Races (indian/chinese/malay)
+- gender : gender (woman/man)
+
+
+```{r}
+# PESANAN PENAJA : RUN THIS CHUNK FIRST BEFORE YOU START THE ANALYSIS!!
+library(foreign)
+data0 <- read.spss('coronary.sav', to.data.frame = TRUE, convert.factors = T)
+data0
+```
+
+**QUESTION 1**
+
+Analyze the relationship between variable ‘cad’ and these covariates, ‘age’,’gender’,’race’ and ‘chol’ and 'dbp'. Name the model as ‘mod.cad’. Write the estimated regression parameters in a table based on ‘mod.cad’. Interpret the parameters. (20 marks)
+
+```{r}
+mod.cad <- glm(cad ~ age + gender + race + chol + dbp, family = binomial(link = logit), data = data0)
+library(broom)
+mod.cad
+tidy(mod.cad, conf.int = T)
+tidy(mod.cad, conf.int = T, exponentiate = T)
+```
+- Patient with increase 1 year of age have 1.350 times the odds to develop coronary artery disease (95%CI 1.307,1.398 , p value <0.001 ) when adjusted for gender, races, chol and dbp.
+
+- Man has 1.457 times the odds to develop coronary artery disease compared to woman (95%CI 1.204,1.768, p value < 0.001) when adjusted with age, gender, chol and dbp.
+
+- Chinese is 95.4% less likely to develop coronary artery disease compared to malay (OR = 0.046, 95%CI 0.031,0.068, p value = p < 0.001) when adjusted with age, gender, chol and dbp.
+
+- Indian is 99.9% less likely to develop coronary artery disease compared to malay (OR = 0.001, 95%CI 0.0006,0.0025, p value = p < 0.001) when adjusted with age, gender, chol and dbp.
+
+- Patient with increase 1 mmol/l of cholesterol has 1.165 times the odds to develop coronary artery disease (95%CI 1.082, 1.255, p < 0.001) when adjusted with age, gender, races and dbp.
+
+- Patient with increase 1 mmHg of dbp has 1.054 times the odds to develop coronary artery diseases (95%CI 1.046, 1.062, p < 0.001) when adjusted with age, gender, races and chol.
+
+**QUESTION 2**
+
+Add an interaction term between variable ‘age’ and ‘gender’ to the model ‘mod.cad’.Run the analysis and name the model as ‘mod.cad.int’. Write the estimated regression parameters in a table based on ‘mod.metab.int’.
+(10 marks)
+
+```{r}
+mod.cad.int <- glm(cad ~ age + gender + race + chol + dbp + age:gender, family = binomial(link = logit), data = data0)
+mod.cad.int
+tidy(mod.cad.int, conf.int = T)
+tidy(mod.cad.int, conf.int = T, exponentiate = T)
+```
+
+**QUESTION 3**
+
+Compare model ‘mod.cad.int’ and ‘mod.cad’ using an appropriate test and interpret the result. (10 marks)
+
+```{r}
+anova(mod.cad, mod.cad.int, test ='Chisq')
+```
+
+Comparison between model with and without interaction done using anova showing there is significant different between the two model. Thus model with the interaction is selected. 
+
+**QUESTION 4**
+
+Predict the logit and probability for having coronory artery disease (cad = cad) in a population with age = 50, gender = woman, race = chinese and dbp = 90, chol = 7 based on ‘mod.cad’ and ‘mod.mcad.int’. (20 marks)
+
+```{r}
+newdata <- expand.grid( age = 50,
+                        gender = 'woman',
+                        race = 'malay',
+                        dbp = 90,
+                        chol = 7)
+```
+
+
+```{r}
+#Model mod.cad
+pred.logit <- predict(mod.cad, newdata = newdata, type = 'link')
+pred.prob <- predict(mod.cad, newdata = newdata, type = 'response')
+cbind(newdata, pred.logit, pred.prob)
+```
+
+```{r}
+#Model mod.cad.int
+pred.logit1 <- predict(mod.cad.int, newdata = newdata, type = 'link')
+pred.prob1 <- predict(mod.cad.int, newdata = newdata, type = 'response')
+cbind(newdata, pred.logit1, pred.prob1)
+```
+
+
+
+
+
+
+
+
+
+
