@@ -11,6 +11,20 @@ output:
 
 # Dataset
 
+
+```{r}
+library(pacman)
+p_load(haven, foreign, broom, tidyverse, psych, knitr, lubridate, survival, survminer)
+mydata <- read_dta("stroke_outcome.dta")
+mydata <- mydata %>%
+  mutate_if(is.labelled, ~as_factor(.))
+mydata <- mydata %>%
+  mutate(dur = mydata$doa %--% mydata$dod) %>%
+  mutate(dur = as.duration(dur)) %>%
+  mutate(dur_days = dur/ddays(1))
+```
+
+
 Dataset stroke_outcome.dta had these variables
 
 - ID : unique identification number
@@ -27,19 +41,15 @@ Dataset stroke_outcome.dta had these variables
 - hpt2 : Hpt status (no/yes)
 - race2 : Malay Ethnicity (no/yes)
 
-```{r}
-library(pacman)
-p_load(haven, foreign, broom, tidyverse, psych, knitr, lubridate, survival, survminer)
-mydata <- read_dta("stroke_outcome.dta")
-mydata <- mydata %>%
-  mutate_if(is.labelled, ~as_factor(.))
-mydata <- mydata %>%
-  mutate(dur = mydata$doa %--% mydata$dod) %>%
-  mutate(dur = as.duration(dur)) %>%
-  mutate(dur_days = dur/ddays(1))
-```
-
 # Question 1
+
+Explain the KM Estimation for the survival of the stroke patient
+
+# Question 2
+
+Explain the KM Estimation for the survival of the stroke patient, by DM status (variable:dm2)
+
+# Question 3
 
 Analyse the relationship between variable "event" and these covariate, "sex", "gcs", "sbp" and "age". name the model as "mod.metab".
 
@@ -48,6 +58,18 @@ Write the estimated regression parameter in a table based on "mod.metab"
 Interpret the parameter
 
 
-# Question 2
+# Question 4
 
 Add an interaction term between variable "sex" and "gcs" to the model "mod.metab". Run the analysis and name the model as "mod.metab.int"
+
+Write the estimated regression parameters in a table based on "mod.metab.int"
+
+
+# Question 5
+
+Compare model "mod.metab.int" and "mod.metab" using an approprite test and interpret the result
+
+
+# Question 6
+
+Predict probability survival at 14 days when sex = female, gcs = 10, sbp = 110 and age = 75, based on "mod.metab" and "mod.metab.int", as compared to the population average.

@@ -44,7 +44,45 @@ mydata
 
 # Question 1
 
-Analyse the relationship between variable "event" and these covariate, "sex", "gcs", "sbp" and "age". name the model as "mod.metab".
+Explain the KM Estimation for the survival of the stroke patient
+
+## Answer
+
+The median survival time for the stroke patient was 22 days (95% CI = 12, NA)
+```{r}
+KM_Overall <- survfit(Surv(time = dur_days, event == "dead")~ 1,
+                     data = mydata, type = "kaplan-meier")
+KM_Overall
+```
+
+KM Plot Shown below
+```{r}
+ggsurvplot(KM_Overall, data = mydata, risk.table = T)
+```
+
+# Question 2
+
+Explain the KM Estimation for the survival of the stroke patient, by DM status (variable:dm2)
+
+## Answer
+
+
+The median survival time for non DM patient was 29 days (95% CI = 25, NA), while the median survival time for DM patient was 12 days (95% CI = 9, 22). There was significant different of survival time between DM patient and non DM patient (p < 0.001)
+```{r}
+KM_DM <- survfit(Surv(time = dur_days, event == "dead")~ dm2,
+                 data = mydata, type = "kaplan-meier")
+KM_DM
+```
+
+The KM plot was shown below
+```{r}
+ggsurvplot(KM_DM, data = mydata, risk.table = T, pval = T)
+```
+
+
+# Question 3
+
+Analyse the relationship between variable "event" and these covariate, "sex", "gcs", "sbp" and "age", by using cox regression. name the model as "mod.metab".
 
 Write the estimated regression parameter in a table based on "mod.metab"
 
@@ -56,14 +94,119 @@ Interpret the parameter
 mod.metab <- coxph(Surv(time = dur_days, event == "dead")~ sex + gcs + sbp + age,
                    data = mydata)
 summary(mod.metab)
+```
+
+Estimated regression in table
+```{r}
 tidy(mod.metab)
 ```
+
+Interpretation
 
 - The log hazard to die change by 0.05 (95% CI = -0.49, 0.59, p = 0.857) for female patient, as compared to male patient, when adjusted to GCS, systolic BP and patient's age.
 - The log hazard to die change by -0.23 (95% CI = -0.30, -0.17, p < 0.001) for each increase in 1 unit of GCS, when adjusted to sex, systolic BP and patient's age.
 - The log hazard to die change by 0.002 (95% CI = -0.001, 0.009, p = 0.646) for each increase of 1 mmHg of systolic BP, when adjusted to sex, GCS and patient's age.
 - The log hazard to die change by 0.018 (95% CI = -0.002, 0.038, p = 0.079) for each increase of 1 year of age, when adjusted to sex, GCS and systolic BP.
 
-# Question 2
+# Question 4
 
-add 
+Add an interaction term between variable "sex" and "gcs" to the model "mod.metab". Run the analysis and name the model as "mod.metab.int"
+
+Write the estimated regression parameters in a table based on "mod.metab.int"
+
+## Answer
+
+```{r}
+mod.metab.int <- coxph(Surv(time = dur_days, event == "dead")~ sex + gcs + sbp + age + sex:gcs,
+                       data = mydata)
+summary(mod.metab.int)
+```
+
+Estimated regression in table
+
+```{r}
+tidy(mod.metab.int)
+```
+
+
+
+# Question 5
+
+Compare model "mod.metab.int" and "mod.metab" using an approprite test and interpret the result
+
+## Answer
+
+the model was compared using chi-square test.
+
+```{r}
+anova(mod.metab.int, mod.metab, test = "Chisq")
+```
+
+no significant different between model "mod.metab.int" and "mod.metab" (p = 0.223). hence there was no significant interaction between "sex" and "gcs"
+
+# Question 6
+
+Predict probability survival at 14 days when sex = female, gcs = 10, sbp = 110 and age = 75, based on "mod.metab" and "mod.metab.int", as compared to the population average.
+
+## Answer - option 1
+
+Predicted hazard = $h_0(t) \times exp^{(\beta X)}$.
+
+Predicted hazard = base hazard X linear predictor
+
+For **mod.metab model**
+
+base hazard at 14 days was 0.311109196
+```{r}
+basehaz(mod.metab)
+```
+
+linear predictor
+```{r}
+new_data <- expand.grid(sex = c("female"),
+                        gcs = c(10),
+                        sbp = c(110),
+                        age = c(75))
+lp.pred <- predict(mod.metab, newdata = new_data, type = "lp")
+0.311109196*exp(lp.pred)
+```
+
+The Probability survival at 14 days for the patient, as compared to the population average was `r 0.311109196*exp(lp.pred)`
+
+For **mod.metab model**
+
+base hazard at 14 days was 0.295888040
+```{r}
+basehaz(mod.metab.int)
+```
+
+linear predictor
+```{r}
+new_data_int <- expand.grid(sex = c("female"),
+                            gcs = c(10),
+                            sbp = c(110),
+                            age = c(75))
+lp.pred_int <- predict(mod.metab.int, newdata = new_data_int, type = "lp")
+0.295888040*exp(lp.pred_int)
+```
+
+The Probability survival at 14 days for the patient, as compared to the population average was `r 0.295888040*exp(lp.pred_int)`
+
+  
+## Answer - option 2
+
+For **mod.tab.int**
+
+```{r}
+new_data2_int <- expand.grid(sex = c("female"),
+                             gcs = c(10),
+                             sbp = c(110),
+                             age = c(75),
+                             dur_days = c(14),
+                             event = c("dead"))
+pred.exp_int <- predict(mod.metab.int, newdata = new_data2_int, type = "expected")
+cbind(new_data2_int, pred.exp_int)
+```
+
+the probability survival at 14 days for the patient, as compated to the population average was 0.630
+
