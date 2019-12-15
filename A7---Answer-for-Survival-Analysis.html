@@ -1704,6 +1704,7 @@ summary(mod.metab.int)</code></pre>
 <p>Compare model “mod.metab.int” and “mod.metab” using an approprite test and interpret the result</p>
 <div id="answer-4" class="section level2">
 <h2>Answer</h2>
+<p>the model was compared using chi-square test.</p>
 <pre class="r"><code>anova(mod.metab.int, mod.metab, test = &quot;Chisq&quot;)</code></pre>
 <pre><code>## Analysis of Deviance Table
 ##  Cox model: response is  Surv(time = dur_days, event == &quot;dead&quot;)
@@ -1712,16 +1713,17 @@ summary(mod.metab.int)</code></pre>
 ##    loglik Chisq Df P(&gt;|Chi|)
 ## 1 -255.88                   
 ## 2 -256.62 1.487  1    0.2227</code></pre>
-<p>no significant different between model “mod.metab.int” and “mod.metab”. hence there was no significant interaction between “sex” and “gcs”</p>
+<p>no significant different between model “mod.metab.int” and “mod.metab” (p = 0.223). hence there was no significant interaction between “sex” and “gcs”</p>
 </div>
 </div>
 <div id="question-6" class="section level1">
 <h1>Question 6</h1>
 <p>Predict probability survival at 14 days when sex = female, gcs = 10, sbp = 110 and age = 75, based on “mod.metab” and “mod.metab.int”, as compared to the population average.</p>
-<div id="answer-5" class="section level2">
-<h2>Answer</h2>
-<p>Predicted hazard = <span class="math inline">\(h_0(t) \times exp^{(\beta X)}\)</span> Predicted hazard = base hazard X linear predictor</p>
-<p>For mod.metab model</p>
+<div id="answer---option-1" class="section level2">
+<h2>Answer - option 1</h2>
+<p>Predicted hazard = <span class="math inline">\(h_0(t) \times exp^{(\beta X)}\)</span>.</p>
+<p>Predicted hazard = base hazard X linear predictor</p>
+<p>For <strong>mod.metab model</strong></p>
 <p>base hazard at 14 days was 0.311109196</p>
 <pre class="r"><code>basehaz(mod.metab)</code></pre>
 <pre><code>##         hazard time
@@ -1762,19 +1764,87 @@ summary(mod.metab.int)</code></pre>
                         gcs = c(10),
                         sbp = c(110),
                         age = c(75))
-lp.pred &lt;- predict(mod.metab, newdata = new_data, type = &quot;lp&quot;)</code></pre>
+lp.pred &lt;- predict(mod.metab, newdata = new_data, type = &quot;lp&quot;)
+0.311109196*exp(lp.pred)</code></pre>
+<pre><code>##         1 
+## 0.5977524</code></pre>
 <p>The Probability survival at 14 days for the patient, as compared to the population average was 0.5977524</p>
-<p>alternatively</p>
+<p>For <strong>mod.metab.int model</strong></p>
+<p>base hazard at 14 days was 0.295888040</p>
+<pre class="r"><code>basehaz(mod.metab.int)</code></pre>
+<pre><code>## Warning in survfit.coxph(fit, se.fit = FALSE): the model contains
+## interactions; the default curve based on columm means of the X matrix is
+## almost certainly not useful. Consider adding a newdata argument.</code></pre>
+<pre><code>##         hazard time
+## 1  0.009004446    0
+## 2  0.041533597    1
+## 3  0.053519801    2
+## 4  0.077851725    3
+## 5  0.094233399    4
+## 6  0.119441939    5
+## 7  0.144113737    6
+## 8  0.171761294    7
+## 9  0.171761294    8
+## 10 0.199306772    9
+## 11 0.220591633   10
+## 12 0.220591633   11
+## 13 0.267772183   12
+## 14 0.267772183   13
+## 15 0.295888040   14
+## 16 0.295888040   15
+## 17 0.295888040   16
+## 18 0.314224759   18
+## 19 0.314224759   19
+## 20 0.314224759   20
+## 21 0.314224759   21
+## 22 0.336988349   22
+## 23 0.336988349   23
+## 24 0.413805751   25
+## 25 0.413805751   26
+## 26 0.468966827   28
+## 27 0.568348991   29
+## 28 0.568348991   32
+## 29 0.568348991   36
+## 30 0.755994660   41
+## 31 0.755994660   43
+## 32 0.755994660   61</code></pre>
+<p>linear predictor</p>
+<pre class="r"><code>new_data_int &lt;- expand.grid(sex = c(&quot;female&quot;),
+                            gcs = c(10),
+                            sbp = c(110),
+                            age = c(75))
+lp.pred_int &lt;- predict(mod.metab.int, newdata = new_data_int, type = &quot;lp&quot;)
+0.295888040*exp(lp.pred_int)</code></pre>
+<pre><code>##         1 
+## 0.6296699</code></pre>
+<p>The Probability survival at 14 days for the patient, as compared to the population average was 0.6296699</p>
+</div>
+<div id="answer---option-2" class="section level2">
+<h2>Answer - option 2</h2>
+<p>For <strong>mod.tab</strong></p>
 <pre class="r"><code>new_data2 &lt;- expand.grid(sex = c(&quot;female&quot;),
-                        gcs = c(10),
-                        sbp = c(110),
-                        age = c(75),
-                        dur_days = c(14),
-                        event = c(&quot;dead&quot;))
-pred.exp &lt;- predict(mod.metab, newdata = new_data2, type = &quot;expected&quot;)
-cbind(new_data, pred.exp)</code></pre>
-<pre><code>##      sex gcs sbp age  pred.exp
-## 1 female  10 110  75 0.5977524</code></pre>
+                         gcs = c(10),
+                         sbp = c(110),
+                         age = c(75),
+                         dur_days = c(14),
+                         event = c(&quot;dead&quot;))
+pred.exp2 &lt;- predict(mod.metab, newdata = new_data2, type = &quot;expected&quot;)
+cbind(new_data2, pred.exp2)</code></pre>
+<pre><code>##      sex gcs sbp age dur_days event pred.exp2
+## 1 female  10 110  75       14  dead 0.5977524</code></pre>
+<p>the probability survival at 14 days for the patient, as compated to the population average was 0.598</p>
+<p>For <strong>mod.tab.int</strong></p>
+<pre class="r"><code>new_data2_int &lt;- expand.grid(sex = c(&quot;female&quot;),
+                             gcs = c(10),
+                             sbp = c(110),
+                             age = c(75),
+                             dur_days = c(14),
+                             event = c(&quot;dead&quot;))
+pred.exp2_int &lt;- predict(mod.metab.int, newdata = new_data2_int, type = &quot;expected&quot;)
+cbind(new_data2_int, pred.exp2_int)</code></pre>
+<pre><code>##      sex gcs sbp age dur_days event pred.exp2_int
+## 1 female  10 110  75       14  dead     0.6296699</code></pre>
+<p>the probability survival at 14 days for the patient, as compated to the population average was 0.630</p>
 </div>
 </div>
 

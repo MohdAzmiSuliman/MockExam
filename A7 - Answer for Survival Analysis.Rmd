@@ -173,7 +173,7 @@ lp.pred <- predict(mod.metab, newdata = new_data, type = "lp")
 
 The Probability survival at 14 days for the patient, as compared to the population average was `r 0.311109196*exp(lp.pred)`
 
-For **mod.metab model**
+For **mod.metab.int model**
 
 base hazard at 14 days was 0.295888040
 ```{r}
@@ -195,6 +195,22 @@ The Probability survival at 14 days for the patient, as compared to the populati
   
 ## Answer - option 2
 
+For **mod.tab**
+
+```{r}
+new_data2 <- expand.grid(sex = c("female"),
+                         gcs = c(10),
+                         sbp = c(110),
+                         age = c(75),
+                         dur_days = c(14),
+                         event = c("dead"))
+pred.exp2 <- predict(mod.metab, newdata = new_data2, type = "expected")
+cbind(new_data2, pred.exp2)
+```
+
+the probability survival at 14 days for the patient, as compated to the population average was 0.598
+
+
 For **mod.tab.int**
 
 ```{r}
@@ -204,8 +220,8 @@ new_data2_int <- expand.grid(sex = c("female"),
                              age = c(75),
                              dur_days = c(14),
                              event = c("dead"))
-pred.exp_int <- predict(mod.metab.int, newdata = new_data2_int, type = "expected")
-cbind(new_data2_int, pred.exp_int)
+pred.exp2_int <- predict(mod.metab.int, newdata = new_data2_int, type = "expected")
+cbind(new_data2_int, pred.exp2_int)
 ```
 
 the probability survival at 14 days for the patient, as compated to the population average was 0.630
