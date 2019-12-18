@@ -99,7 +99,30 @@ p_load(haven, foreign, broom, tidyverse, psych, corrplot, knitr, LogisticDx, gen
 
 ## 8. Others (Theories) (30 - 45min)
 
+### TQ-1
 
+Discuss each component of workflow data analysis below (10m)
+
+![](data-science.png)
+
+### TQ-2
+
+Discuss variable selection in Multivariable Regression Model (10m) - 
+
+### TQ-3
+
+Discuss consideration to select covariates in ANCOVA model (10m)
+
+### TQ-4
+
+List assumption (test, model fitness etc)
+
+- Factorial ANOVA
+- Factorial ANCOVA
+- RM ANOVA
+- Linear Regression
+- Logistic Regression
+- Survival Analysis
 
 ## 9. Answer
 
