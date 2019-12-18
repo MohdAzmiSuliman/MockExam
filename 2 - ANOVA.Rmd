@@ -4,3 +4,9 @@ author: "DrPH Yr 1 Sem 1 2019/2020"
 date: "14/12/2019"
 output: html_document
 ---
+
+# Question
+
+Using the dataset performance.sav, a researcher would like to examine the relationship between student perfomance score (variable: **perform**) on sleep (variable: **sleep**). The researcher also would like to examine whether the performance score was affected by alcohol consumption (variable: **alcohol).
+
+By using appropriate analysis, run the statistical test, outline and interpret the steps involved in the analysis. write your table presentation in the answer sheet given and save the spss output.

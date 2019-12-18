@@ -4,3 +4,9 @@ author: "DrPH Yr 1 Sem 1 2019/2020"
 date: "14/12/2019"
 output: html_document
 ---
+
+# Question
+
+By using dataset motivationscore.sav, a researcher would like to examine the relationship between student performance score (variable: **score**) and the type of teaching method (variable : **method**). The researcher would like to examine whether the performance score confounded by motivation index (variable: **motivation**).
+
+By using appropriate analysis, run the statistical test, outline and interpret the steps involved in the analysis. Write your table presentation in the answer sheet given and save the spss output.

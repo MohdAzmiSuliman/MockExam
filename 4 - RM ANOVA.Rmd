@@ -4,3 +4,9 @@ author: "DrPH Yr 1 Sem 1 2019/2020"
 date: "14/12/2019"
 output: html_document
 ---
+
+# Question
+
+By using dataset confidence.sav, a researcher would like to examine confidence level in 30 students after given a psychotherapy program. Higher score indicate higher level of confidence. The scores were measured 3 times. (variable: **confid1, confid2, confid3**).
+
+Using appropriate analysis, run the statistical test, outline and interpret the steps involved in the analysis. Write your table presentation in the answer given and save the spss output.

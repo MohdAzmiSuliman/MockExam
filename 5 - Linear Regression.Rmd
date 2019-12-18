@@ -37,7 +37,7 @@ c. Write equation with interaction. (10m)
 d. Assumptions for fitness analysis for this model. (10m)
 **comment on adjusted R-squared
 
-#PYQ 2017 linear
+# PYQ 2017 linear
 
 Using the same dataset, analyze the relationship between variable ‘hdl’ and these covariates, ‘ldl’,tg,’gender’. Name the model as Model A. 
 

@@ -2,7 +2,9 @@
 title: "1. Intro"
 author: "DrPH Yr 1 Sem 1 2019/2020"
 date: "14/12/2019"
-output: 
+output:
+  pdf_document:
+    toc: no
   html_document:
     toc: yes
     toc_float:
@@ -59,19 +61,24 @@ p_load(haven, foreign, broom, tidyverse, psych, corrplot, knitr, LogisticDx, gen
 
 - 10am - 10.15am
 
-*constructing*
+1. Open the Files Tab
+2. Open the 2---ANOVA.html file
+3. Follow the instruction in the html file.
 
 ## 3. ANCOVA (15 - 30min)
 
 - 10.20am - 10.35am
 
-*constructing*
+1. Open the Files Tab
+2. Open the 3---ANCOVA.html file
+3. Follow the instruction in the html file.
 
 ## 4. RM ANOVA (15 - 30min)
 
-- 10.40am - 10.55am
+1. Open the Files Tab
+2. Open the 4---RM ANOVA.html file
+3. Follow the instruction in the html file.
 
-*constructing*
 
 ## 5. Linear Regression (15 - 30min)
 
@@ -101,28 +108,28 @@ p_load(haven, foreign, broom, tidyverse, psych, corrplot, knitr, LogisticDx, gen
 
 ### TQ-1
 
-Discuss each component of workflow data analysis below (10m)
+Discuss each component of workflow data analysis below (10m) - daus	ashraf ayu
 
 ![](data-science.png)
 
 ### TQ-2
 
-Discuss variable selection in Multivariable Regression Model (10m) - 
+Discuss variable selection in Multivariable Regression Model (10m) - hazwan	nizam	faizul
 
 ### TQ-3
 
-Discuss consideration to select covariates in ANCOVA model (10m)
+Discuss consideration to select covariates in ANCOVA model (10m) - zul	azmi	fahmi
 
 ### TQ-4
 
 List assumption (test, model fitness etc)
 
-- Factorial ANOVA
-- Factorial ANCOVA
-- RM ANOVA
-- Linear Regression
-- Logistic Regression
-- Survival Analysis
+- Factorial ANOVA - alif	nasr	anwar
+- Factorial ANCOVA - zikr	faiz	elyas
+- RM ANOVA - nizam	daus	zikr
+- Linear Regression - zul	fahmi	faiz
+- Logistic Regression - anwar	elyas	ashraf
+- Survival Analysis - nasr hazwan ayu
 
 ## 9. Answer
 
