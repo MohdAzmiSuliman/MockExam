@@ -3,12 +3,12 @@ title: "1. Intro"
 author: "DrPH Yr 1 Sem 1 2019/2020"
 date: "14/12/2019"
 output:
-  pdf_document:
-    toc: no
   html_document:
     toc: yes
     toc_float:
       collapsed: no
+  pdf_document:
+    toc: no
 ---
 
 # Instruction
@@ -114,13 +114,17 @@ Discuss each component of workflow data analysis below (10m) - daus	ashraf ayu
 
 ### TQ-2
 
-Discuss variable selection in Multivariable Regression Model (10m) - hazwan	nizam	faizul
+Discuss consideration to select covariates in ANCOVA model (10m) - zul	azmi	fahmi
 
 ### TQ-3
 
-Discuss consideration to select covariates in ANCOVA model (10m) - zul	azmi	fahmi
+Discuss how to handle interaction in ANOVA, ANCOVA or RM ANOVA - alif, anwar, zikr
 
 ### TQ-4
+
+Discuss variable selection in Multivariable Regression Model (10m) - hazwan	nizam	faizul
+
+### TQ-5
 
 List assumption (test, model fitness etc)
 
