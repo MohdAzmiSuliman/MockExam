@@ -1,0 +1,57 @@
+---
+title: "logistic reg"
+author: "Mohd Azmi"
+date: "01/01/2020"
+output: word_document
+---
+```{r}
+# PESANAN PENAJA : RUN THIS CHUNK FIRST BEFORE YOU START THE ANALYSIS!!
+library(foreign)
+data0 <- read.spss('coronary.sav', to.data.frame = TRUE, convert.factors = T)
+```
+
+```{r}
+library(pacman)
+p_load(broom, tidyverse, psych, corrplot, knitr, LogisticDx, generalhoslem, ResourceSelection)
+```
+
+```{r}
+data0
+
+mod.cad <- glm(cad ~ age + gender + race + chol + dbp, family = binomial, data = data0)
+mod.cad
+summary(mod.cad)
+kable(tidy(mod.cad, conf.int = T))
+kable(tidy(mod.cad, exponentiate = T, conf.int = T))
+summary(data0$race)
+
+levels(data0$race)
+```
+
+
+```{r}
+mod.cad.int <- glm(cad ~ age + gender + race + chol + dbp + age:gender, family = binomial, data = data0)
+mod.cad.int
+summary(mod.cad.int)
+kable(tidy(mod.cad.int, conf.int = T))
+kable(tidy(mod.cad.int, exponentiate = T, conf.int = T))
+```
+
+```{r}
+anova(mod.cad, mod.cad.int, test = "Chisq")
+```
+
+```{r}
+new_data2 <- expand.grid(age = c(50),
+                        gender = c("woman"),
+                        race = c("chinese"),
+                        dbp = c(90),
+                        chol = c(7))
+
+predict(mod.cad, newdata = new_data2, type = "link")
+predict(mod.cad, newdata = new_data2, type = "response")
+
+predict(mod.cad.int, newdata = new_data2, type = "link")
+predict(mod.cad.int, newdata = new_data2, type = "response")
+```
+
