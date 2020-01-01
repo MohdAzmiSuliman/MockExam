@@ -1,0 +1,86 @@
+---
+title: "surv"
+author: "Mohd Azmi"
+date: "01/01/2020"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+
+```{r}
+library(pacman)
+p_load(haven, foreign, broom, tidyverse, psych, knitr, lubridate, survival, survminer)
+mydata <- read_dta("stroke_outcome.dta")
+mydata <- mydata %>%
+  mutate_if(is.labelled, ~as_factor(.))
+mydata <- mydata %>%
+  mutate(dur = mydata$doa %--% mydata$dod) %>%
+  mutate(dur = as.duration(dur)) %>%
+  mutate(dur_days = dur/ddays(1))
+```
+
+
+```{r}
+head(mydata)
+
+km_overall <- survfit(Surv(time = dur_days, event == "dead")~1, type="kaplan-meier", data = mydata)
+summary(mydata$dur_days)
+summary(km_overall)
+kable(tidy(km_overall))
+km_overall
+ggsurvplot(km_overall, risk.table = T)
+
+```
+
+
+```{r}
+km_dm <- survfit(Surv(time = dur_days, event == "dead")~dm2, type="kaplan-meier", data = mydata)
+km_dm
+ggsurvplot(km_dm, risk.table = T, pval = T)
+```
+
+
+```{r}
+mod.metab <- coxph(Surv(time = dur_days, event == "dead") ~ sex + gcs + sbp + age, data=mydata)
+mod.metab
+kable(tidy(mod.metab))
+kable(tidy(mod.metab, conf.int = T, exponentiate = T))
+```
+
+
+```{r}
+mod.metab.int <- coxph(Surv(time = dur_days, event == "dead") ~ sex + gcs + sbp + age + sex:gcs, data=mydata)
+mod.metab.int
+kable(tidy(mod.metab.int))
+tidy(mod.metab.int)
+kable(tidy(mod.metab.int, conf.int = T, exponentiate = T))
+```
+
+
+```{r}
+anova(mod.metab.int, mod.metab, test="chisq")
+```
+
+
+
+```{r}
+new_data <- expand.grid(sex = c("female"),
+                        gcs = c(10),
+                        sbp = c(110),
+                        age = c(75))
+basehaz(mod.metab)
+lp_pred <- predict(mod.metab, newdata = new_data, type = "lp")
+lp_pred
+0.311109196	* exp (lp_pred)
+```
+
+```{r}
+basehaz(mod.metab.int)
+lp_pred.int <- predict(mod.metab.int, newdata = new_data, type = "lp")
+lp_pred.int
+0.295888040		* exp (lp_pred.int)
+```
+
+
