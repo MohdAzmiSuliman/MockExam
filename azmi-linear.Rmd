@@ -2,7 +2,10 @@
 title: "linear reg"
 author: "Mohd Azmi"
 date: "01/01/2020"
-output: word_document
+output:
+  word_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r}
@@ -57,5 +60,43 @@ ggplot(fitted_modelA, aes(x=.resid)) +
   stat_function(fun = dnorm, colour = "magenta",
                 args = list(mean = mean(fitted_modelA$.resid),
                             sd = sd(fitted_modelA$.resid)))
+```
+
+```{r}
+cor_ivs <- data1 %>%
+  select(Age, Diab_dur, BMI) %>%
+  cor(use = "complete.obs")
+cor_ivs
+corrplot(cor_ivs)
+ggplot(data1, aes(x=Age, y=Diab_dur)) +
+  geom_point() +
+  stat_smooth(method = lm)
+```
+
+```{r}
+Model_A19 <- lm(HDL ~ LDL + TG + Sex, data = data1)
+Model_A19
+summary(Model_A19)
+kable(tidy(Model_A19, conf.int = T))
+```
+
+
+```{r}
+describe(data1)
+summary(data1)
+```
+
+```{r}
+Model_B19 <- lm(HDL ~ LDL + TG + Sex + TG:Sex, data = data1)
+summary(Model_B19)
+anova(Model_A19, Model_B19)
+```
+
+```{r}
+new_dataD <- expand.grid(LDL = c(3.5),
+                         TG = c (3.0),
+                         Sex = c("Male"))
+augment(Model_A19, newdata = new_dataD)
+augment(Model_B19, newdata = new_dataD)
 ```
 
