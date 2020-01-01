@@ -1,0 +1,61 @@
+---
+title: "linear reg"
+author: "Mohd Azmi"
+date: "01/01/2020"
+output: word_document
+---
+
+```{r}
+library(readxl)
+data1 <- read_excel('data.xlsx')
+library(tidyverse)
+data1 <- data1 %>% mutate(Sex = as.factor(Sex),
+                          Age = as.double(Age),
+                          BMI = as.double(`Body mass index`),
+                          HbA1c = as.double(HbA1c),
+                          HDL = as.double(HDL),
+                          LDL = as.double(LDL),
+                          TG = as.double(TG),
+                          Diab_dur = as.double(`Diabetes Age`))
+head(data1)
+```
+
+
+```{r}
+library(pacman)
+p_load(broom, psych, corrplot, knitr)
+
+
+model_A <- lm(HbA1c ~ Age + Diab_dur + BMI, data = data1)
+model_A
+summary((model_A))
+kable(tidy(model_A, conf.int=T))
+
+describe(data1)
+```
+
+
+```{r}
+model_A.int <- lm(HbA1c ~ Age + Diab_dur + BMI + Age:Diab_dur, data = data1)
+model_A.int
+summary((model_A.int))
+kable(tidy(model_A.int, conf.int=T))
+```
+
+
+```{r}
+fitted_modelA <- augment(model_A)
+fitted_modelA
+ggplot(aes(x=.fitted, y=.resid), data=fitted_modelA) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = 5) +
+  geom_hline(yintercept = -5)
+
+ggplot(fitted_modelA, aes(x=.resid)) +
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun = dnorm, colour = "magenta",
+                args = list(mean = mean(fitted_modelA$.resid),
+                            sd = sd(fitted_modelA$.resid)))
+```
+
